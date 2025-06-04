@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Interativo de Matemática para Provas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body {
+font-family: 'Inter', sans-serif;
+background-color: #FDFBF7;
+color: #3C3C3C;
+scroll-behavior: smooth;
+}
+.nav-link {
+transition: all 0.2s ease-in-out;
+border-left: 3px solid transparent;
+}
+.nav-link:hover, .nav-link.active {
+background-color: #F5F1EA;
+color: #A88B79;
+border-left-color: #A88B79;
+}
+.card {
+background-color: #FFFFFF;
+border: 1px solid #EAE5DD;
+border-radius: 12px;
+padding: 2rem;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.formula {
+background-color: #F5F1EA;
+color: #3C3C3C;
+padding: 1rem;
+border-radius: 8px;
+font-family: monospace;
+text-align: center;
+border: 1px solid #EAE5DD;
+overflow-x: auto; /* For very long formulas if any */
+}
+.btn {
+background-color: #A88B79;
+color: white;
+padding: 0.75rem 1.5rem;
+border-radius: 8px;
+font-weight: 500;
+transition: background-color 0.2s;
+cursor: pointer;
+border: none;
+}
+.btn:hover {
+background-color: #8E715E;
+}
+.btn.inactive { /* Style for inactive function type button */
+    background-color: #D4BFAA; /* Lighter shade or gray */
+    color: #3C3C3C;
+}
+.btn.inactive:hover {
+    background-color: #C1AD9E; /* Slightly darker hover for inactive */
+}
+input[type=number], input[type=text] {
+border: 1px solid #D4BFAA;
+border-radius: 8px;
+padding: 0.5rem 1rem;
+width: 100%;
+box-sizing: border-box;
+}
+input[type=range] {
+-webkit-appearance: none;
+width: 100%;
+height: 8px;
+border-radius: 5px;
+background: #D4BFAA;
+outline: none;
+opacity: 0.7;
+-webkit-transition: .2s;
+transition: opacity .2s;
+}
+input[type=range]::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background: #A88B79;
+cursor: pointer;
+}
+.chart-container {
+position: relative;
+height: 40vh;
+max-height: 400px;
+width: 100%;
+max-width: 800px;
+margin: 1.5rem auto 0 auto;
+}
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .formula {
+        font-size: 0.875rem; /* Slightly smaller font for formulas on mobile */
+    }
+    .card {
+        padding: 1.5rem;
+    }
+    h2 {
+        font-size: 1.75rem; /* Adjust heading sizes */
+    }
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+</style>
+</head>
+<body class="flex">
+<aside class="w-64 h-screen sticky top-0 bg-white border-r border-gray-200 hidden lg:block">
+<div class="p-6">
+<h1 class="text-xl font-bold text-[#A88B79]">Guia de Matemática</h1>
+<p class="text-sm text-gray-500 mt-1">Sua revisão para a prova.</p>
+</div>
+<nav id="desktop-nav" class="flex flex-col space-y-1 px-4">
+</nav>
+</aside>
+<main class="flex-1 p-4 sm:p-6 lg:p-10">
+    <header class="mb-10 text-center">
+        <h1 class="text-4xl font-bold text-gray-800">Guia Interativo de Matemática</h1>
+        <p class="mt-2 text-lg text-gray-600">Explore os principais temas de matemática para a sua prova de forma interativa. Use os menus e as ferramentas para aprofundar seu conhecimento!</p>
+    </header>
+
+    <section id="matematica-financeira" class="mb-16 card">
+        <h2 class="text-3xl font-bold mb-4">Matemática Financeira</h2>
+        <p class="text-gray-600 mb-6">A matemática financeira é essencial para entender como o dinheiro se comporta ao longo do tempo. Aqui, vamos focar em juros simples e compostos, que são a base para financiamentos e investimentos.</p>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-xl font-semibold mb-2">Juros Simples</h3>
+                <p class="mb-4">Calculados sempre sobre o valor inicial. O crescimento é linear, constante.</p>
+                <div class="formula">J = C * i * t</div>
+                <p class="mt-2 text-sm text-center">Montante: M = C + J</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-2">Juros Compostos</h3>
+                <p class="mb-4">Calculados sobre o montante do período anterior ("juros sobre juros"). O crescimento é exponencial.</p>
+                <div class="formula">M = C * (1 + i)^t</div>
+                <p class="mt-2 text-sm text-center">Juros: J = M - C</p>
+            </div>
+        </div>
+        <div class="mt-8 border-t pt-8">
+            <h3 class="text-xl font-semibold mb-4 text-center">Calculadora e Comparador de Juros</h3>
+            <div class="grid sm:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label for="capital" class="block text-sm font-medium text-gray-700 mb-1">Capital Inicial (C)</label>
+                    <input type="number" id="capital" value="1000" min="0.01" step="any">
+                </div>
+                <div>
+                    <label for="taxa" class="block text-sm font-medium text-gray-700 mb-1">Taxa de Juros (i) em % ao mês</label>
+                    <input type="number" id="taxa" value="2" min="0" step="any">
+                </div>
+                <div>
+                    <label for="tempo" class="block text-sm font-medium text-gray-700 mb-1">Tempo (t) em meses</label>
+                    <input type="number" id="tempo" value="12" min="1" step="1">
+                </div>
+            </div>
+            <div class="text-center">
+                <button id="calcular-juros" class="btn">Calcular e Gerar Gráfico</button>
+            </div>
+            <p id="juros-error" class="text-red-500 text-center mt-2"></p>
+            <div class="chart-container">
+                <canvas id="jurosChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-12 border-gray-300">
+
+    <section id="funcoes" class="mb-16 card">
+        <h2 class="text-3xl font-bold mb-4">Funções</h2>
+        <p class="text-gray-600 mb-6">Funções descrevem relações entre grandezas. As mais comuns são a função afim (reta) e a quadrática (parábola), essenciais para modelar situações do dia a dia e analisar gráficos.</p>
+        <h3 class="text-xl font-semibold mb-4 text-center">Explorador de Gráficos de Funções</h3>
+        <p class="text-center text-gray-600 mb-6">Use os controles deslizantes para alterar os coeficientes e veja como a forma do gráfico muda em tempo real. Isso ajuda a entender o papel de cada parte da fórmula.</p>
+        <div class="grid lg:grid-cols-5 gap-8 items-start">
+            <div class="lg:col-span-2">
+                <div class="mb-6">
+                    <h4 class="font-semibold mb-2">Função Afim (1º Grau): y = ax + b</h4>
+                    <label for="sliderA" class="block text-sm font-medium">Coeficiente angular 'a': <span id="valorA">1</span></label>
+                    <input type="range" id="sliderA" min="-10" max="10" value="1" step="0.1">
+                    <label for="sliderB" class="block text-sm font-medium mt-2">Coeficiente linear 'b': <span id="valorB">0</span></label>
+                    <input type="range" id="sliderB" min="-10" max="10" value="0" step="0.5">
+                </div>
+                <div class="mb-6">
+                    <h4 class="font-semibold mb-2">Função Quadrática (2º Grau): y = ax² + bx + c</h4>
+                    <label for="sliderAq" class="block text-sm font-medium">Coeficiente 'a': <span id="valorAq">1</span></label>
+                    <input type="range" id="sliderAq" min="-5" max="5" value="1" step="0.1">
+                    <label for="sliderBq" class="block text-sm font-medium mt-2">Coeficiente 'b': <span id="valorBq">0</span></label>
+                    <input type="range" id="sliderBq" min="-10" max="10" value="0" step="0.5">
+                    <label for="sliderCq" class="block text-sm font-medium mt-2">Coeficiente 'c': <span id="valorCq">0</span></label>
+                    <input type="range" id="sliderCq" min="-10" max="10" value="0" step="0.5">
+                </div>
+                <div class="flex space-x-2">
+                    <button id="selectAfim" class="btn flex-1">Ver Função Afim</button>
+                    <button id="selectQuadratica" class="btn inactive flex-1">Ver Função Quadrática</button>
+                </div>
+            </div>
+            <div class="lg:col-span-3">
+                <div class="chart-container h-[50vh] max-h-[500px]">
+                    <canvas id="funcoesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-12 border-gray-300">
+
+    <section id="trigonometria" class="mb-16 card">
+        <h2 class="text-3xl font-bold mb-4">Trigonometria</h2>
+        <p class="text-gray-600 mb-6">A trigonometria estuda as relações entre os lados e os ângulos dos triângulos. É fundamental em áreas como engenharia, física e navegação.</p>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-xl font-semibold mb-2">Razões no Triângulo Retângulo</h3>
+                <div class="w-full max-w-xs mx-auto aspect-square bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center relative rounded-lg p-4">
+                    <div style="width: 80%; height: 60%; background-color: #A88B79; clip-path: polygon(0% 100%, 0% 0%, 100% 100%);"></div>
+                    <span class="absolute bottom-2 left-2 font-bold text-lg text-gray-700">C.A.</span>
+                    <span class="absolute" style="top: 40%; left: 2px; transform: translateY(-50%) rotate(-90deg); transform-origin: bottom left; white-space: nowrap;">
+                        <span class="font-bold text-lg text-gray-700">C.O.</span>
+                    </span>
+                    <span class="absolute font-bold text-lg text-gray-700" style="top: 30%; right: 22%; transform: rotate(-37deg) translateY(-50%); white-space: nowrap;">Hip.</span>
+                    <div class="absolute bottom-1 right-1 w-8 h-8 border-l-2 border-t-2 border-gray-500"></div>
+                    <span class="absolute bottom-1 right-10 font-bold text-lg text-gray-700">θ</span>
+                </div>
+                <div class="mt-4 space-y-2">
+                    <div class="formula">sen(θ) = Cateto Oposto / Hipotenusa</div>
+                    <div class="formula">cos(θ) = Cateto Adjacente / Hipotenusa</div>
+                    <div class="formula">tan(θ) = Cateto Oposto / Cateto Adjacente</div>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-2">Leis para Triângulos Quaisquer</h3>
+                <p class="mb-4">Para triângulos que não são retângulos, usamos as leis dos senos e dos cossenos para encontrar lados e ângulos desconhecidos.</p>
+                <h4 class="font-semibold mb-2">Lei dos Senos</h4>
+                <div class="formula mb-4">a/sen(A) = b/sen(B) = c/sen(C)</div>
+                <h4 class="font-semibold mb-2">Lei dos Cossenos</h4>
+                <div class="formula">a² = b² + c² - 2bc * cos(A)</div>
+                 <p class="mt-4 text-sm text-gray-500">Nota: Calculadoras interativas para estas leis podem ser complexas de implementar sem um parser de equações ou um sistema de input mais robusto para lados/ângulos. Por ora, as fórmulas são apresentadas para estudo.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-12 border-gray-300">
+
+    <section id="analise-combinatoria" class="mb-16 card">
+        <h2 class="text-3xl font-bold mb-4">Análise Combinatória</h2>
+        <p class="text-gray-600 mb-6">Este campo da matemática foca em contar as possibilidades de um evento ocorrer. É a base para o cálculo de probabilidades.</p>
+        <h3 class="text-xl font-semibold mb-4 text-center">Calculadora de Combinações</h3>
+        <p class="text-center text-gray-600 mb-6">Insira os valores de 'n' (total de elementos) e 'k' (elementos a serem escolhidos) para calcular arranjos, combinações e permutações. Lembre-se: em arranjos a ordem importa, em combinações não.</p>
+        <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto mb-6">
+            <div>
+                <label for="combinatoria-n" class="block text-sm font-medium text-gray-700 mb-1">Total de elementos (n)</label>
+                <input type="number" id="combinatoria-n" value="5" min="0" step="1">
+            </div>
+            <div>
+                <label for="combinatoria-k" class="block text-sm font-medium text-gray-700 mb-1">Elementos no grupo (k)</label>
+                <input type="number" id="combinatoria-k" value="2" min="0" step="1">
+            </div>
+        </div>
+        <div class="text-center mb-6">
+            <button id="calcular-combinatoria" class="btn">Calcular</button>
+        </div>
+        <p id="combinatoria-error" class="text-red-500 text-center mb-4"></p>
+        <div class="grid sm:grid-cols-3 gap-6 text-center">
+            <div>
+                <h4 class="font-semibold text-lg">Arranjo</h4>
+                <p class="text-sm text-gray-500 mb-2">A(n, k) = n! / (n-k)!</p>
+                <div class="formula text-2xl font-bold" id="resultado-arranjo">?</div>
+            </div>
+            <div>
+                <h4 class="font-semibold text-lg">Combinação</h4>
+                <p class="text-sm text-gray-500 mb-2">C(n, k) = n! / (k! * (n-k)!)</p>
+                <div class="formula text-2xl font-bold" id="resultado-combinacao">?</div>
+            </div>
+            <div>
+                <h4 class="font-semibold text-lg">Permutação (de n)</h4>
+                <p class="text-sm text-gray-500 mb-2">P(n) = n!</p>
+                <div class="formula text-2xl font-bold" id="resultado-permutacao">?</div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-12 border-gray-300">
+
+    <section id="geometria-analitica" class="mb-16 card">
+        <h2 class="text-3xl font-bold mb-4">Geometria Analítica</h2>
+        <p class="text-gray-600 mb-6">A geometria analítica une álgebra e geometria, usando um sistema de coordenadas (plano cartesiano) para descrever formas geométricas com equações.</p>
+        <h3 class="text-xl font-semibold mb-4 text-center">Explorador do Plano Cartesiano</h3>
+        <p class="text-center text-gray-600 mb-6">Clique em dois lugares no gráfico para definir os pontos A e B. A aplicação calculará a distância entre eles e mostrará a equação da reta que os une.</p>
+        <div class="grid lg:grid-cols-5 gap-8 items-start">
+            <div class="lg:col-span-3">
+                <div class="chart-container h-[50vh] max-h-[500px]">
+                    <canvas id="geoChart"></canvas>
+                </div>
+            </div>
+            <div class="lg:col-span-2">
+                <h4 class="font-semibold text-lg mb-4">Informações da Reta</h4>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Ponto A (x₁, y₁)</p>
+                        <p id="pontoA" class="font-mono text-lg">(?, ?)</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Ponto B (x₂, y₂)</p>
+                        <p id="pontoB" class="font-mono text-lg">(?, ?)</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Distância entre A e B</p>
+                        <p id="distancia" class="font-mono text-lg">?</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Equação da Reta</p>
+                        <p id="eqReta" class="font-mono text-lg">?</p>
+                    </div>
+                    <button id="resetGeo" class="btn">Limpar Pontos</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-12 border-gray-300">
+
+    <section id="progressoes" class="mb-16 card">
+        <h2 class="text-3xl font-bold mb-4">Progressões (PA e PG)</h2>
+        <p class="text-gray-600 mb-6">Progressões são sequências numéricas com um padrão definido. Na Progressão Aritmética (PA) somamos um valor constante (razão), e na Geométrica (PG) multiplicamos por um valor constante.</p>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Calculadora de PA</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="pa-a1" class="block text-sm font-medium">Primeiro termo (a₁)</label>
+                        <input type="number" id="pa-a1" value="2" step="any">
+                    </div>
+                    <div>
+                        <label for="pa-r" class="block text-sm font-medium">Razão (r)</label>
+                        <input type="number" id="pa-r" value="3" step="any">
+                    </div>
+                    <div>
+                        <label for="pa-n" class="block text-sm font-medium">Posição do termo (n)</label>
+                        <input type="number" id="pa-n" value="10" min="1" step="1">
+                    </div>
+                    <button id="calcular-pa" class="btn w-full">Calcular PA</button>
+                    <p id="pa-error" class="text-red-500 text-center"></p>
+                    <div class="text-center pt-2">
+                        <p class="text-sm">Termo aₙ (a₁ + (n-1)r): <span id="resultado-pa-an" class="font-bold">?</span></p>
+                        <p class="text-sm">Soma Sₙ ((a₁ + aₙ)n / 2): <span id="resultado-pa-sn" class="font-bold">?</span></p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-4">Calculadora de PG</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="pg-a1" class="block text-sm font-medium">Primeiro termo (a₁)</label>
+                        <input type="number" id="pg-a1" value="2" step="any">
+                    </div>
+                    <div>
+                        <label for="pg-q" class="block text-sm font-medium">Razão (q)</label>
+                        <input type="number" id="pg-q" value="3" step="any">
+                    </div>
+                    <div>
+                        <label for="pg-n" class="block text-sm font-medium">Posição do termo (n)</label>
+                        <input type="number" id="pg-n" value="5" min="1" step="1">
+                    </div>
+                    <button id="calcular-pg" class="btn w-full">Calcular PG</button>
+                     <p id="pg-error" class="text-red-500 text-center"></p>
+                    <div class="text-center pt-2">
+                        <p class="text-sm">Termo aₙ (a₁ * q^(n-1)): <span id="resultado-pg-an" class="font-bold">?</span></p>
+                        <p class="text-sm">Soma Sₙ (a₁(qⁿ-1)/(q-1), se q≠1): <span id="resultado-pg-sn" class="font-bold">?</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="my-12 border-gray-300">
+
+    <section id="conjuntos-numericos" class="card">
+        <h2 class="text-3xl font-bold mb-4">Conjuntos Numéricos</h2>
+        <p class="text-gray-600 mb-6">Os números que usamos são organizados em conjuntos, cada um com suas propriedades. Entender essa hierarquia é fundamental para a base da matemática.</p>
+        <div class="w-full mx-auto max-w-2xl p-4 flex justify-center items-center">
+            <div class="relative rounded-full border-4 border-purple-600 p-4 w-80 h-80 sm:w-96 sm:h-96 flex justify-center items-center text-sm sm:text-base">
+                <span class="absolute -top-5 sm:-top-6 text-purple-600 font-bold">Reais (R)</span>
+                <div class="relative rounded-full border-4 border-blue-600 p-4 w-64 h-64 sm:w-80 sm:h-80 flex justify-center items-center">
+                    <span class="absolute -top-5 sm:-top-6 text-blue-600 font-bold">Racionais (Q)</span>
+                    <div class="relative rounded-full border-4 border-green-600 p-4 w-48 h-48 sm:w-60 sm:h-60 flex justify-center items-center">
+                        <span class="absolute -top-5 sm:-top-6 text-green-600 font-bold">Inteiros (Z)</span>
+                        <div class="relative rounded-full border-4 border-orange-500 w-32 h-32 sm:w-40 sm:h-40 flex flex-col justify-center items-center text-center">
+                            <span class="absolute -top-5 sm:-top-6 text-orange-500 font-bold">Naturais (N)</span>
+                            <span class="text-orange-500 text-xs sm:text-sm">0, 1, 2...</span>
+                        </div>
+                        <span class="absolute bottom-1 sm:bottom-2 text-green-600 text-xs sm:text-sm">...-2, -1</span>
+                    </div>
+                    <span class="absolute bottom-1 sm:bottom-2 text-blue-600 text-xs sm:text-sm">1/2, -0.75, 0.33...</span>
+                </div>
+                <span class="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 text-red-500 font-bold text-xs sm:text-sm text-right">Irracionais (I)<br>π, √2, e...</span>
+            </div>
+        </div>
+        <p class="text-center text-gray-600 mt-6">O diagrama mostra como os conjuntos se aninham: os Naturais estão contidos nos Inteiros, que estão contidos nos Racionais. Os Racionais e Irracionais juntos formam o conjunto dos números Reais.</p>
+    </section>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('main section');
+    const navContainer = document.getElementById('desktop-nav');
+
+    sections.forEach(section => {
+        const navLink = document.createElement('a');
+        navLink.href = `#${section.id}`;
+        navLink.textContent = section.querySelector('h2').textContent;
+        navLink.className = 'nav-link px-4 py-2 text-gray-700 font-medium rounded-r-lg';
+        navContainer.appendChild(navLink);
+    });
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === entry.target.id) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.5, rootMargin: "-50% 0px -50% 0px" }); // Adjust rootMargin to make active link trigger more centrally
+    sections.forEach(section => observer.observe(section));
+
+    let jurosChartInstance;
+    const jurosErrorEl = document.getElementById('juros-error');
+
+    function renderJurosChart() {
+        jurosErrorEl.textContent = '';
+        const capital = parseFloat(document.getElementById('capital').value);
+        const taxaInput = parseFloat(document.getElementById('taxa').value);
+        const tempo = parseInt(document.getElementById('tempo').value);
+
+        if (isNaN(capital) || capital <= 0) {
+            jurosErrorEl.textContent = 'Capital inicial deve ser um número positivo.';
+            if (jurosChartInstance) jurosChartInstance.destroy();
+            return;
+        }
+        if (isNaN(taxaInput) || taxaInput < 0) {
+            jurosErrorEl.textContent = 'Taxa de juros deve ser um número não negativo.';
+             if (jurosChartInstance) jurosChartInstance.destroy();
+            return;
+        }
+        const taxa = taxaInput / 100;
+        if (isNaN(tempo) || tempo < 1 || !Number.isInteger(tempo)) {
+            jurosErrorEl.textContent = 'Tempo deve ser um inteiro positivo.';
+             if (jurosChartInstance) jurosChartInstance.destroy();
+            return;
+        }
+        
+        const labels = Array.from({ length: tempo + 1 }, (_, i) => `Mês ${i}`);
+        const dataSimples = [];
+        const dataComposto = [];
+
+        for (let t = 0; t <= tempo; t++) {
+            const montanteSimples = capital * (1 + taxa * t);
+            dataSimples.push(montanteSimples.toFixed(2));
+            
+            const montanteComposto = capital * Math.pow(1 + taxa, t);
+            dataComposto.push(montanteComposto.toFixed(2));
+        }
+        
+        const ctx = document.getElementById('jurosChart').getContext('2d');
+        if (jurosChartInstance) {
+            jurosChartInstance.destroy();
+        }
+        jurosChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Juros Simples',
+                    data: dataSimples,
+                    borderColor: '#A88B79',
+                    backgroundColor: 'rgba(168, 139, 121, 0.1)',
+                    fill: true,
+                    tension: 0.1
+                }, {
+                    label: 'Juros Compostos',
+                    data: dataComposto,
+                    borderColor: '#3C3C3C',
+                    backgroundColor: 'rgba(60, 60, 60, 0.1)',
+                    fill: true,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Crescimento do Montante' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: { callback: value => 'R$ ' + parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
+                    }
+                }
+            }
+        });
+    }
+    document.getElementById('calcular-juros').addEventListener('click', renderJurosChart);
+    renderJurosChart(); // Initial render
+
+    let funcoesChartInstance;
+    let currentFunctionType = 'afim';
+    const sliderA = document.getElementById('sliderA');
+    const sliderB = document.getElementById('sliderB');
+    const sliderAq = document.getElementById('sliderAq');
+    const sliderBq = document.getElementById('sliderBq');
+    const sliderCq = document.getElementById('sliderCq');
+    const btnAfim = document.getElementById('selectAfim');
+    const btnQuadratica = document.getElementById('selectQuadratica');
+
+    function updateFuncoesChart() {
+        const a = parseFloat(sliderA.value);
+        const b = parseFloat(sliderB.value);
+        document.getElementById('valorA').textContent = a.toFixed(1);
+        document.getElementById('valorB').textContent = b.toFixed(1);
+        
+        const aq = parseFloat(sliderAq.value);
+        const bq = parseFloat(sliderBq.value);
+        const cq = parseFloat(sliderCq.value);
+        document.getElementById('valorAq').textContent = aq.toFixed(1);
+        document.getElementById('valorBq').textContent = bq.toFixed(1);
+        document.getElementById('valorCq').textContent = cq.toFixed(1);
+        
+        const labels = Array.from({ length: 41 }, (_, i) => (i - 20) * 0.5); // Finer range for smoother curves: -10 to 10 with 0.5 steps
+        let data, chartLabel;
+
+        if (currentFunctionType === 'afim') {
+            data = labels.map(x => a * x + b);
+            chartLabel = `y = ${a.toFixed(1)}x ${b >= 0 ? '+' : '-'} ${Math.abs(b).toFixed(1)}`;
+        } else {
+            data = labels.map(x => aq * x * x + bq * x + cq);
+            chartLabel = `y = ${aq.toFixed(1)}x² ${bq >= 0 ? '+' : '-'} ${Math.abs(bq).toFixed(1)}x ${cq >= 0 ? '+' : '-'} ${Math.abs(cq).toFixed(1)}`;
+        }
+        
+        const ctx = document.getElementById('funcoesChart').getContext('2d');
+        if (funcoesChartInstance) {
+            funcoesChartInstance.data.datasets[0].data = data;
+            funcoesChartInstance.data.datasets[0].label = chartLabel;
+            funcoesChartInstance.update();
+        } else {
+            funcoesChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: chartLabel,
+                        data: data,
+                        borderColor: '#A88B79',
+                        tension: 0.1,
+                        fill: false,
+                        pointRadius: 0 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { title: { display: true, text: 'Gráfico da Função' }},
+                    scales: {
+                        x: {
+                            grid: { color: '#eee' },
+                            title: { display: true, text: 'x' }
+                        },
+                        y: {
+                            grid: { color: '#eee' },
+                            title: { display: true, text: 'y' },
+                            // Dynamically adjust y-axis limits if needed, or set reasonable defaults
+                            // min: -20, // Example
+                            // max: 20   // Example
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    [sliderA, sliderB, sliderAq, sliderBq, sliderCq].forEach(s => s.addEventListener('input', updateFuncoesChart));
+    
+    function setActiveFunctionButton(activeBtn, inactiveBtn) {
+        activeBtn.classList.remove('inactive', 'bg-gray-300', 'hover:bg-gray-400');
+        activeBtn.classList.add('bg-[#A88B79]', 'hover:bg-[#8E715E]', 'text-white');
+
+        inactiveBtn.classList.add('inactive', 'bg-gray-300', 'hover:bg-gray-400');
+        inactiveBtn.classList.remove('bg-[#A88B79]', 'hover:bg-[#8E715E]', 'text-white');
+    }
+
+    btnAfim.addEventListener('click', () => {
+        currentFunctionType = 'afim';
+        setActiveFunctionButton(btnAfim, btnQuadratica);
+        updateFuncoesChart();
+    });
+    btnQuadratica.addEventListener('click', () => {
+        currentFunctionType = 'quadratica';
+        setActiveFunctionButton(btnQuadratica, btnAfim);
+        updateFuncoesChart();
+    });
+    setActiveFunctionButton(btnAfim, btnQuadratica); // Set initial active button
+    updateFuncoesChart(); // Initial render
+
+
+    function factorial(n) {
+        if (n < 0) return NaN; // Factorial is not defined for negative numbers
+        if (n === 0) return 1;
+        let result = 1;
+        for (let i = 2; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    const combinatoriaErrorEl = document.getElementById('combinatoria-error');
+    function calcularCombinatoria() {
+        combinatoriaErrorEl.textContent = '';
+        const n = parseInt(document.getElementById('combinatoria-n').value);
+        const k = parseInt(document.getElementById('combinatoria-k').value);
+
+        document.getElementById('resultado-arranjo').textContent = '?';
+        document.getElementById('resultado-combinacao').textContent = '?';
+        document.getElementById('resultado-permutacao').textContent = '?';
+
+        if (isNaN(n) || isNaN(k) || n < 0 || k < 0) {
+            combinatoriaErrorEl.textContent = "Valores de 'n' e 'k' devem ser inteiros não negativos.";
+            return;
+        }
+        if (k > n) {
+            combinatoriaErrorEl.textContent = "'k' não pode ser maior que 'n'.";
+            document.getElementById('resultado-arranjo').textContent = 'Inválido';
+            document.getElementById('resultado-combinacao').textContent = 'Inválido';
+            // Permutation of n is still valid
+            const permutacaoN = factorial(n);
+             document.getElementById('resultado-permutacao').textContent = isNaN(permutacaoN) ? 'Erro' : permutacaoN.toLocaleString('pt-BR');
+            return;
+        }
+
+        const arranjo = factorial(n) / factorial(n - k);
+        const combinacao = arranjo / factorial(k); // or factorial(n) / (factorial(k) * factorial(n - k));
+        const permutacao = factorial(n); // Permutation of n elements, k is not used here.
+
+        document.getElementById('resultado-arranjo').textContent = isNaN(arranjo) ? 'Erro' : arranjo.toLocaleString('pt-BR');
+        document.getElementById('resultado-combinacao').textContent = isNaN(combinacao) ? 'Erro' : combinacao.toLocaleString('pt-BR');
+        document.getElementById('resultado-permutacao').textContent = isNaN(permutacao) ? 'Erro' : permutacao.toLocaleString('pt-BR');
+    }
+    document.getElementById('calcular-combinatoria').addEventListener('click', calcularCombinatoria);
+    calcularCombinatoria(); // Initial Calculation
+
+    let geoChartInstance;
+    let geoPoints = [];
+    const geoCanvas = document.getElementById('geoChart');
+    const pontoADisplay = document.getElementById('pontoA');
+    const pontoBDisplay = document.getElementById('pontoB');
+    const distanciaDisplay = document.getElementById('distancia');
+    const eqRetaDisplay = document.getElementById('eqReta');
+
+    function renderGeoChart() {
+        const ctx = geoCanvas.getContext('2d');
+        if (geoChartInstance) {
+            geoChartInstance.destroy();
+        }
+
+        let lineData = [];
+        let minX = -10, maxX = 10; // Default chart bounds
+
+        if (geoPoints.length === 2) {
+            const x1 = geoPoints[0].x; const y1 = geoPoints[0].y;
+            const x2 = geoPoints[1].x; const y2 = geoPoints[1].y;
+            
+            // Extend line to chart edges if not vertical
+            if (x1 !== x2) {
+                 const a = (y2 - y1) / (x2 - x1);
+                 const b = y1 - a * x1;
+                 lineData = [{x: minX, y: a * minX + b}, {x: maxX, y: a * maxX + b}];
+            } else { // Vertical line
+                 lineData = [{x: x1, y: -100}, {x: x1, y: 100}]; // Arbitrary large y range for vertical line
+            }
+        }
+        
+        geoChartInstance = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Pontos',
+                    data: geoPoints,
+                    backgroundColor: '#A88B79',
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }, {
+                    label: 'Reta',
+                    data: lineData,
+                    borderColor: '#3C3C3C',
+                    type: 'line',
+                    fill: false,
+                    tension: 0, // Straight line
+                    pointRadius: 0,
+                    showLine: geoPoints.length === 2 // Only show line if two points exist
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { 
+                    title: { display: true, text: 'Clique no gráfico para adicionar até 2 pontos' }, 
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { type: 'linear', position: 'bottom', min: minX, max: maxX, grid: {color: '#eee'} },
+                    y: { min: -10, max: 10, grid: {color: '#eee'} } // Fixed Y scale for now
+                }
+            }
+        });
+    }
+
+    function updateGeoInfo() {
+        pontoADisplay.textContent = '(?, ?)';
+        pontoBDisplay.textContent = '(?, ?)';
+        distanciaDisplay.textContent = '?';
+        eqRetaDisplay.textContent = '?';
+
+        if (geoPoints.length >= 1) {
+            const p1 = geoPoints[0];
+            pontoADisplay.textContent = `(${p1.x.toFixed(2)}, ${p1.y.toFixed(2)})`;
+        }
+
+        if (geoPoints.length === 2) {
+            const p1 = geoPoints[0];
+            const p2 = geoPoints[1];
+            pontoBDisplay.textContent = `(${p2.x.toFixed(2)}, ${p2.y.toFixed(2)})`;
+            
+            const dist = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+            distanciaDisplay.textContent = dist.toFixed(2);
+
+            if (Math.abs(p2.x - p1.x) < 0.001) { // Check for vertical line (account for float precision)
+                eqRetaDisplay.textContent = `x = ${p1.x.toFixed(2)}`;
+            } else if (Math.abs(p2.y - p1.y) < 0.001) { // Horizontal line
+                 eqRetaDisplay.textContent = `y = ${p1.y.toFixed(2)}`;
+            }
+            else {
+                const a = (p2.y - p1.y) / (p2.x - p1.x);
+                const b = p1.y - a * p1.x;
+                eqRetaDisplay.textContent = `y = ${a.toFixed(2)}x ${b >= 0 ? '+' : '-'} ${Math.abs(b).toFixed(2)}`;
+            }
+        }
+    }
+
+    geoCanvas.addEventListener('click', (evt) => {
+        if (geoPoints.length >= 2) {
+            // Optionally, allow replacing points or notify user
+            // For now, just return if 2 points are already set.
+            return;
+        }
+        if (!geoChartInstance) return; // Chart not initialized
+        
+        const rect = geoCanvas.getBoundingClientRect();
+        const xPixel = evt.clientX - rect.left;
+        const yPixel = evt.clientY - rect.top;
+        
+        const xScale = geoChartInstance.scales.x;
+        const yScale = geoChartInstance.scales.y;
+
+        // Ensure pixel values are within chart area before converting
+        if (xPixel >= xScale.left && xPixel <= xScale.right && yPixel >= yScale.top && yPixel <= yScale.bottom) {
+            const xVal = xScale.getValueForPixel(xPixel);
+            const yVal = yScale.getValueForPixel(yPixel);
+
+            geoPoints.push({ x: parseFloat(xVal.toFixed(2)), y: parseFloat(yVal.toFixed(2)) }); // Store with limited precision
+            updateGeoInfo();
+            renderGeoChart();
+        }
+    });
+
+    document.getElementById('resetGeo').addEventListener('click', () => {
+        geoPoints = [];
+        updateGeoInfo();
+        renderGeoChart();
+    });
+    renderGeoChart(); // Initial render
+    updateGeoInfo();  // Initial info update
+
+    const paErrorEl = document.getElementById('pa-error');
+    const pgErrorEl = document.getElementById('pg-error');
+
+    document.getElementById('calcular-pa').addEventListener('click', () => {
+        paErrorEl.textContent = '';
+        document.getElementById('resultado-pa-an').textContent = '?';
+        document.getElementById('resultado-pa-sn').textContent = '?';
+
+        const a1 = parseFloat(document.getElementById('pa-a1').value);
+        const r = parseFloat(document.getElementById('pa-r').value);
+        const n = parseInt(document.getElementById('pa-n').value);
+
+        if (isNaN(a1) || isNaN(r)) {
+            paErrorEl.textContent = 'Primeiro termo e razão devem ser números.';
+            return;
+        }
+        if (isNaN(n) || n < 1 || !Number.isInteger(n)) {
+            paErrorEl.textContent = 'Posição do termo (n) deve ser um inteiro positivo.';
+            return;
+        }
+
+        const an = a1 + (n - 1) * r;
+        const sn = (a1 + an) * n / 2;
+        document.getElementById('resultado-pa-an').textContent = an.toLocaleString('pt-BR');
+        document.getElementById('resultado-pa-sn').textContent = sn.toLocaleString('pt-BR');
+    });
+
+    document.getElementById('calcular-pg').addEventListener('click', () => {
+        pgErrorEl.textContent = '';
+        document.getElementById('resultado-pg-an').textContent = '?';
+        document.getElementById('resultado-pg-sn').textContent = '?';
+
+        const a1 = parseFloat(document.getElementById('pg-a1').value);
+        const q = parseFloat(document.getElementById('pg-q').value);
+        const n = parseInt(document.getElementById('pg-n').value);
+
+        if (isNaN(a1) || isNaN(q)) {
+            pgErrorEl.textContent = 'Primeiro termo e razão devem ser números.';
+            return;
+        }
+        if (isNaN(n) || n < 1 || !Number.isInteger(n)) {
+            pgErrorEl.textContent = 'Posição do termo (n) deve ser um inteiro positivo.';
+            return;
+        }
+
+        const an = a1 * Math.pow(q, n - 1);
+        let sn;
+        if (q === 1) {
+            sn = a1 * n;
+        } else {
+            sn = a1 * (Math.pow(q, n) - 1) / (q - 1);
+        }
+        document.getElementById('resultado-pg-an').textContent = isNaN(an) ? 'Inválido' : an.toLocaleString('pt-BR');
+        document.getElementById('resultado-pg-sn').textContent = isNaN(sn) ? 'Inválido' : sn.toLocaleString('pt-BR');
+    });
+
+    // Trigger initial calculations for PA and PG if desired
+    // document.getElementById('calcular-pa').click();
+    // document.getElementById('calcular-pg').click();
+});
+</script>
+</body>
+</html>
